@@ -242,13 +242,13 @@ Error message and password prompt
 
 <li>Reference</li>
 
-<li>Running JSUB on lxslc server</li>
-
 <li>splitter</li>
 
 <li>TDF_example</li>
 
 <li>Using JSUB</li>
+
+<li>Virtualenv for JSUB</li>
 
 </ul>
 </p>
@@ -8567,7 +8567,7 @@ Error message and password prompt
 <div created="20200315114029617" modified="20200315115105994" title="$:/state/tab--1963855381">
 <pre>$:/core/ui/ControlPanel/Palette</pre>
 </div>
-<div list="JSUB [[Using JSUB]] [[Running JSUB on lxslc server]] Manage" title="$:/StoryList">
+<div list="JSUB [[Using JSUB]] [[Virtualenv for JSUB]] Manage" title="$:/StoryList">
 <pre></pre>
 </div>
 <div created="20200316022620977" modified="20200316022633714" tags="$:/tags/Stylesheet" title="$:/Style.css">
@@ -9472,35 +9472,6 @@ Params:
 <div created="20200315114050363" modified="20200315114109230" tags="Main" title="Reference">
 <pre>&lt;&lt;list-links filter:&quot;[tag[Reference]]&quot;&gt;&gt;</pre>
 </div>
-<div created="20200429084136373" modified="20200429084138774" title="Running JSUB on lxslc server">
-<pre>''加载 modules 环境''
-
-```
-export MODULEPATH=/cvmfs/dcomputing.ihep.ac.cn/hpc/sw/x86_64-sl6/modulefiles
-
-source /cvmfs/dcomputing.ihep.ac.cn/hpc/sw/x86_64-sl6/module/4.2.1/init/bash (如果是其他的shell改一下)
-```
-
-
-''加载python3环境''
-
-```
-module avail
-
-module load python/3.7.3
-
-python -V
-```
-
-''创建虚拟 python 环境''
-
-```
-virtualenv venv
-
-source venv/bin/activate
-```
-</pre>
-</div>
 <div created="20200316025432361" modified="20200316031424606" tags="[[Software Component]]" title="splitter">
 <pre>The splitter handles the splitting of a task into multiple subjobs, so that these subjobs can be distributed to different machines for running.
 
@@ -9567,12 +9538,12 @@ param:
 
 ```</pre>
 </div>
-<div created="20200315114203690" modified="20200429084114278" tags="Main" title="Using JSUB">
+<div created="20200315114203690" modified="20200429085109908" tags="Main" title="Using JSUB">
 <pre>!!Installation
 
 JSUB is available on [[github|https://github.com/jsubpy/jsub]], the python package can be downloaded and installed locally with `pip`.
 
-[[Running JSUB on lxslc server]]
+JSUB needs to be installed in and run in [[virtualenv|Virtualenv for JSUB]] to avoid conflicts.
 
 ----
 
@@ -9603,6 +9574,51 @@ The task definition files are written in scenario-specific style, allowing users
 !!Manage tasks with Command Lines
 
 With tasks defined, a user can run [[JSUB commands]] to create, submit, and monitor the running status of his tasks.
+</pre>
+</div>
+<div created="20200429084136373" modified="20200429084923491" title="Virtualenv for JSUB">
+<pre>首次运行前，需要创建虚拟环境
+
+''加载 modules 环境''
+
+```
+export MODULEPATH=/cvmfs/dcomputing.ihep.ac.cn/hpc/sw/x86_64-sl6/modulefiles
+
+source /cvmfs/dcomputing.ihep.ac.cn/hpc/sw/x86_64-sl6/module/4.2.1/init/bash (如果是其他的shell改一下)
+```
+
+
+''加载python3环境''
+
+```
+module avail
+
+module load python/3.7.3
+
+python -V
+```
+
+''创建虚拟 python 环境''
+
+```
+virtualenv venv
+```
+
+----
+
+
+''每次运行jsub前需激活环境''
+
+```
+source venv/bin/activate
+```
+
+退出虚拟环境的命令
+
+```
+deactivate
+```
+
 </pre>
 </div>
 
