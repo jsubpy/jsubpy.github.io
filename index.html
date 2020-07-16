@@ -132,6 +132,8 @@ Error message and password prompt
 
 <li>$:/DefaultTiddlers</li>
 
+<li>$:/Import</li>
+
 <li>$:/isEncrypted</li>
 
 <li>$:/SiteSubtitle</li>
@@ -8590,6 +8592,16 @@ Error message and password prompt
 <pre>JSUB
 </pre>
 </div>
+<div plugin-type="import" status="pending" title="$:/Import" type="application/json">
+<pre>{
+    &quot;tiddlers&quot;: {
+        &quot;Untitled&quot;: {
+            &quot;title&quot;: &quot;Untitled&quot;,
+            &quot;text&quot;: &quot;export MODULEPATH=/cvmfs/dcomputing.ihep.ac.cn/hpc/sw/x86_64-sl6/modulefiles\r\n\r\n&quot;
+        }
+    }
+}</pre>
+</div>
 <div title="$:/isEncrypted">
 <pre>no</pre>
 </div>
@@ -8620,7 +8632,7 @@ Error message and password prompt
 <div created="20200315114029617" modified="20200315115105994" title="$:/state/tab--1963855381">
 <pre>$:/core/ui/ControlPanel/Palette</pre>
 </div>
-<div list="Manage $:/core/ui/Buttons/save-wiki JSUB" title="$:/StoryList">
+<div list="JSUB [[Using JSUB]] [[Manually install jsub from github]] [[Virtualenv for JSUB]] Reference" title="$:/StoryList">
 <pre></pre>
 </div>
 <div created="20200316022620977" modified="20200708140818050" tags="$:/tags/Stylesheet" title="$:/Style.css">
@@ -9544,7 +9556,7 @@ JSUB version: v0r1
 <div created="20200315143717409" modified="20200315143744832" tags="Package" title="jsub_juno">
 <pre></pre>
 </div>
-<div created="20200315114441120" modified="20200701095526431" tags="Example" title="jsubrc example">
+<div created="20200315114441120" modified="20200710031953938" tags="Example" title="jsubrc example">
 <pre>```
 # JSUB Configuration File
 # This configuration file is supposed to be put at ~/.jsubrc.
@@ -9554,10 +9566,9 @@ JSUB version: v0r1
 ###    The packages to be loaded to JSUB. JSUB would search for extension modules according to the order given here.
 package: [jsub_juno, jsub_cepc, jsub_dirac, jsub.exts]
 
-### Location to put task information files; may need big space for log and output files
+### Location to put task information files; may need large space for log and output files
 taskDir: 
-  location: /junofs/users/yangyf/workdir/jsub
-
+  location: ~/jsub/
 
 ### Backend setting
 backend:
@@ -9850,10 +9861,10 @@ jsub remove &lt;task-id&gt;
 jsub remove &lt;task-id&gt; -f
 ```</pre>
 </div>
-<div created="20200701093109399" modified="20200701095608159" tags="Guide" title="Manually install jsub from github">
+<div created="20200701093109399" modified="20200710022707468" tags="Guide" title="Manually install jsub from github">
 <pre>JSUB is available on [[github|https://github.com/jsubpy/jsub]], the python package can be downloaded and installed locally with `pip` commands.
 
-JSUB needs to be installed in and run in a [[Virtualenv for JSUB]] to avoid conflicts.</pre>
+To avoid conflicts, it's recommended to install and run JSUB in a [[python virtualenv|Virtualenv for JSUB]].</pre>
 </div>
 <div created="20200707071107765" modified="20200707071304681" tags="[[jobvar extension]]" title="randint">
 <pre>A jobvar extension that yield a list of random integer values.
@@ -9977,14 +9988,21 @@ When creating a task, splitter would generate a variable-set list for the task. 
 <div created="20200707024050224" modified="20200707024057426" title="TDF Example">
 <pre>{{Task description examples}}</pre>
 </div>
-<div created="20200315114203690" modified="20200708130419068" tags="Guide Main" title="Using JSUB">
+<div created="20200315114203690" modified="20200715074228557" tags="Guide Main" title="Using JSUB">
 <pre>!!Installation
 
-On IHEP cluster, the software is installed in `/cvmfs/dcomputing.ihep.ac.cn/frontend/jsub`. To activate the software, users simply need to activate a python virtual environment with the following command:
+On IHEP cluster, the software is installed in `/cvmfs/dcomputing.ihep.ac.cn/frontend/jsub`. To use the software, you simply need to activate a python virtual environment with the following command:
 
 ```
-TODO
+source /cvmfs/dcomputing.ihep.ac.cn/frontend/jsub/activate.sh
 ```
+
+And if you want to stop using JSUB and restore python environment, just run the command:
+
+```
+deactivate
+```
+
 
 Alternatively, you may choose to [[Manually install jsub from github]]
 
@@ -10012,44 +10030,34 @@ Check [[Info for Distributed Computing]].
 
 </pre>
 </div>
-<div created="20200429084136373" modified="20200429084923491" title="Virtualenv for JSUB">
-<pre>首次运行前，需要创建虚拟环境
+<div created="20200429084136373" modified="20200715075516015" title="Virtualenv for JSUB">
+<pre>To avoid conflict, it's advisable to install JSUB in a python virtual environment. On lxslc servers of IHEP, you can do this with the following commands.
 
-''加载 modules 环境''
+''load python 3 in module package''
 
 ```
 export MODULEPATH=/cvmfs/dcomputing.ihep.ac.cn/hpc/sw/x86_64-sl6/modulefiles
 
-source /cvmfs/dcomputing.ihep.ac.cn/hpc/sw/x86_64-sl6/module/4.2.1/init/bash (如果是其他的shell改一下)
-```
+source /cvmfs/dcomputing.ihep.ac.cn/hpc/sw/x86_64-sl6/module/4.2.1/init/bash 
 
-
-''加载python3环境''
-
-```
 module avail
 
 module load python/3.7.3
-
-python -V
 ```
 
-''创建虚拟 python 环境''
+''create isolated Python environments with virtualenv''
 
 ```
 virtualenv venv
 ```
 
-----
-
-
-''每次运行jsub前需激活环境''
+''activate the virtual environment before using/installing''
 
 ```
 source venv/bin/activate
 ```
 
-退出虚拟环境的命令
+''exiting virtual environment''
 
 ```
 deactivate
