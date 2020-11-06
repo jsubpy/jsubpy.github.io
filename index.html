@@ -170,6 +170,16 @@ Error message and password prompt
 
 <li>$:/themes/tiddlywiki/vanilla/options/sidebarlayout</li>
 
+<li>101_detsim.yaml</li>
+
+<li>102_simrec.yaml</li>
+
+<li>103_jobvar_splitter</li>
+
+<li>104_elecsim.yaml</li>
+
+<li>105_analysis.yaml</li>
+
 <li>action module</li>
 
 <li>all_files_in_folder</li>
@@ -206,9 +216,13 @@ Error message and password prompt
 
 <li>Extension</li>
 
+<li>find_lfns</li>
+
 <li>How JSUB works</li>
 
 <li>How to write task description files</li>
+
+<li>IHEPcondor backend</li>
 
 <li>IHEPDIRAC web interface</li>
 
@@ -223,6 +237,8 @@ Error message and password prompt
 <li>JSUB commands</li>
 
 <li>jsub create</li>
+
+<li>JSUB developer guide</li>
 
 <li>JSUB Extensions</li>
 
@@ -252,6 +268,8 @@ Error message and password prompt
 
 <li>jsub submit</li>
 
+<li>JSUB user guide</li>
+
 <li>jsub version</li>
 
 <li>jsub_cepc</li>
@@ -262,13 +280,17 @@ Error message and password prompt
 
 <li>jsubrc example</li>
 
-<li>JUNO example with jobvar splitter</li>
-
 <li>JUNO experiment</li>
 
 <li>JUNO sim/rec example</li>
 
-<li>JUNO TDF reference</li>
+<li>JUNO TDF Tutorial</li>
+
+<li>juno_alg</li>
+
+<li>juno_prod</li>
+
+<li>juno_soft</li>
 
 <li>lines_in_file</li>
 
@@ -297,8 +319,6 @@ Error message and password prompt
 <li>Task description examples</li>
 
 <li>TDF Example</li>
-
-<li>Using JSUB</li>
 
 <li>Virtualenv for JSUB</li>
 
@@ -8614,14 +8634,14 @@ Error message and password prompt
 <div created="20200316022545561" modified="20200701053305381" title="$:/state/HideMode">
 <pre>show</pre>
 </div>
-<div created="20200316022637148" modified="20200708140822238" title="$:/state/sidebar">
+<div created="20200316022637148" modified="20201106101659369" title="$:/state/sidebar">
 <pre>no</pre>
 </div>
-<div created="20200315115829416" modified="20200315115829416" title="$:/state/tab/moresidebar-401116514">
-<pre>$:/core/ui/MoreSideBar/All</pre>
+<div created="20200315115829416" modified="20201106085539936" title="$:/state/tab/moresidebar-401116514">
+<pre>$:/core/ui/MoreSideBar/Missing</pre>
 </div>
-<div created="20200315114047068" modified="20200707054951119" title="$:/state/tab/sidebar--1835078512">
-<pre>$:/core/ui/SideBar/Recent</pre>
+<div created="20200315114047068" modified="20201106094133008" title="$:/state/tab/sidebar--1835078512">
+<pre>$:/core/ui/SideBar/More</pre>
 </div>
 <div created="20200701092535309" modified="20200701092535309" title="$:/state/tab--1498284803">
 <pre>$:/core/ui/AdvancedSearch/Filter</pre>
@@ -8632,10 +8652,10 @@ Error message and password prompt
 <div created="20200315114029617" modified="20200315115105994" title="$:/state/tab--1963855381">
 <pre>$:/core/ui/ControlPanel/Palette</pre>
 </div>
-<div list="JSUB [[Using JSUB]] [[Manually install jsub from github]] [[Virtualenv for JSUB]] Reference" title="$:/StoryList">
+<div list="Manage $:/core/ui/Buttons/save-wiki find_lfns [[IHEPcondor backend]] JSUB [[JSUB developer guide]] Reference [[JSUB Extensions]] [[dirac backend]] [[local backend]] [[CEPC experiment]] [[jobvar extension]] [[JUNO experiment]] [[JSUB user guide]] [[JUNO TDF Tutorial]]" title="$:/StoryList">
 <pre></pre>
 </div>
-<div created="20200316022620977" modified="20200708140818050" tags="$:/tags/Stylesheet" title="$:/Style.css">
+<div created="20200316022620977" modified="20201106101647388" tags="$:/tags/Stylesheet" title="$:/Style.css">
 <pre>\rules only filteredtranscludeinline transcludeinline macrodef macrocallinline macrocallblock
 
 /* 目录 */
@@ -8785,7 +8805,7 @@ Error message and password prompt
     }
 }</pre>
 </div>
-<div created="20200325144408665" modified="20200708140737331" title="$:/temp/search">
+<div created="20200325144408665" modified="20201106101650832" title="$:/temp/search">
 <pre></pre>
 </div>
 <div author="JeremyRuston" core-version="&gt;=5.0.0" dependents="$:/themes/tiddlywiki/vanilla" description="Emphasises individual tiddlers" name="Snow White" plugin-type="theme" title="$:/themes/tiddlywiki/snowwhite" type="application/json" version="5.1.15">
@@ -8900,6 +8920,245 @@ Error message and password prompt
 <div created="20200315114033429" modified="20200315114033429" title="$:/themes/tiddlywiki/vanilla/options/sidebarlayout">
 <pre>fluid-fixed</pre>
 </div>
+<div created="20201106085040863" modified="20201106085102464" tags="[[TDF Example]]" title="101_detsim.yaml">
+<pre>```
+## ---------------------------------------
+## A simple example showing the basics about running a JUNO simulation task
+## ---------------------------------------
+taskName: juno_sim
+experiment: juno
+softVersion: 'J20v1r0-Pre2'
+#softVersion: 'sl6_amd64_gcc830/Pre-Release/J20v1r0-Pre2' 
+
+
+backend:
+    type: dirac
+
+    ## When outputSubDir is defined, the final directory for output file would be: /&lt;junofs-user-home&gt;/&lt;outputSubDir&gt;/&lt;taskName&gt;
+    outputSubDir: 'jsub_tests'
+    ## Alternatively, user may specify the full path of output LFN folder with outputDir
+#    outputDir:'/junofs/.../jsub_tests/juno_sim'
+
+#    site:
+#       - CLOUD.JINRONE.ru
+#       - CLOUD.IHEP.cn
+#    bannedSites:
+#       - CLOUD.JINRONE.ru
+
+
+splitter:
+    ## A splitByEvent splitter generate subjobs with uniform settings.
+    ## In splitByEvent mode, filenames of input/output/userOutput are automatic, and the seeds are incremental by 1 by default. Other settings shall stay the same for all subjobs.
+    mode: splitByEvent
+    evtMaxPerJob: 1000
+    njobs: 50
+
+
+workflow:
+    steps: [detsim]
+
+    detsim:
+        seed: 1 # the starting seed (in splitByEvent mode)
+
+        ## additionalArgs are put after common attributes such as output, userOutput, input, seed, evtmax, and rate.
+        additionalArgs: 'gun --particles e+ --momentums 1.398'
+
+```</pre>
+</div>
+<div created="20200701101103125" modified="20201106084914208" tags="[[TDF Example]]" title="102_simrec.yaml">
+<pre>```
+## ----------------------------------
+## An example of having multi-steps in the workflow
+## ----------------------------------
+taskName: juno_simrec
+backend: 
+    type: dirac
+    outputSubDir: 'jsub_tests'
+    experiment: juno
+
+softVersion: 'J20v1r0-Pre2'
+
+
+splitter:
+    mode: splitByEvent
+    evtMaxPerJob: 1000 
+    njobs: 50
+
+
+workflow:
+    steps: [detsim, elecsim, calib, rec]  
+
+    detsim: 
+        seed: 1 # when in splitByEvent mode, the seeds are incremental by default
+        particles: e+
+        momentums: 1.398    #MeV
+        additionalArgs: ''
+        # when gun params are defined:  full_args= '--seed X --output X --user-output X $(additionalArgs) gun --particles X ...'
+
+    elecsim:
+        # when detsim and elecsim are both in the workflow, the output of detsim automatically feeds into elecsim
+        seed: 10
+        rate: 1
+        additionalArgs: ''
+    
+    #calib:        # if a step only uses default settings, it's description can be skipped
+    #    additionalArgs: ''   
+
+```
+</pre>
+</div>
+<div created="20200701101341631" modified="20201106085156230" tags="[[TDF Example]]" title="103_jobvar_splitter">
+<pre>```
+## -----------------------------------
+## This example showcases the usage of jobvar splitter with a gendecay task in LS detector
+## -----------------------------------
+taskName: juno_sim_jobvar_splitter
+experiment: juno
+softVersion: 'sl6_amd64_gcc830/Pre-Release/J20v1r0-Pre2'
+
+
+backend: 
+    type: dirac
+    outputSubDir: 'jsub_tests'
+
+
+splitter:
+    ## A splitByJobvars generate job variable lists and combine them into sets. For each variable set, the splitter generates one subjob accordingly.
+    mode: splitByJobvars 
+    maxSubJobs: 500     ## the resulted number of subjobs won't exceed this number
+    evtMaxPerJob: 5000
+    jobvarLists:
+        ## The jobvar lists are grouped. 
+        ## For jobvars in the same group, the length of their common var-set list is decided by the shortest jobvar list. 
+        ## For jobvar sets in different groups, the combining result is their Cartesian product.
+        ## Jobvars without group attribute would make a final common var-set list with the combining result of all jobvar groups.
+
+        ## In this example, there shall be 6*20=120 jobs, each with a unique seed.
+        nuclear:
+            type: enumerate
+            list: ['U-238','Th-232','K-40','Pb-210','C-14','Kr-85']
+            group: nuclear  
+        subjob:   
+            type: range
+            first: 1    ## default 1
+            step: 1     ## default 1
+            length: 20  ## default 100000
+            group: same_nuclear 
+        seed:
+            type: range
+            first: 1
+            step: 1
+
+workflow:
+    steps: [detsim]
+
+    detsim:
+        ## The values of jobvars can be referenced in workflow setting.
+        seed: '$(seed)'
+        output: '$(nuclear).$(subjob).detsim.root'
+        userOutput: '$(nuclear).$(subjob).user.detsim.root'
+        additionalArgs: 'gendecay --nuclear $(nuclear) --volume pTarget --material LS'
+
+        ## fullArgs = seed + ... + additionalArgs
+        #fullArgs: '--evtmax 5000 --seed $(seed) --output $(nuclear).$(subjob).detsim.root --user-output $(nuclear).$(subjob).user.detsim.root gendecay --nuclear $(nuclear) --volume pTarget --material LS'
+
+```
+</pre>
+</div>
+<div created="20201106085241262" modified="20201106085318098" tags="[[TDF Example]]" title="104_elecsim.yaml">
+<pre>```
+## --------------------------------------------------
+## A example with juno elecsim, showcasing how to get input
+## --------------------------------------------------
+taskName: juno_elecsim
+experiment: juno
+softVersion: 'sl6_amd64_gcc830/Pre-Release/J20v1r0-Pre2'
+
+
+backend: 
+    type: dirac
+    outputSubDir: 'jsub_tests/'
+
+splitter:
+    ## For jobs with input, splitByJobvars splitter is necessary so that the input filenames can be referenced in workflow setting
+    mode: splitByJobvars 
+    maxSubJobs: 500  
+    evtMaxPerJob: 5000
+    jobvarLists:
+        ## One way to assign input file is to list the filenames in a text file.
+#       input_filename:
+#           type: lines_in_file 
+#           file: './lfnlist.example'   
+        ## Another way is to filter LFN list in a given folder, using dirac-dms-find-lfns command
+        input_filename:
+           type: find_lfns
+           path: '/juno/user/.../test'
+           metaspec:   ' &quot;Size&gt;1000&quot; &quot;CreationDate&gt;2010-01-01&quot; ' # metadata index specification
+        seed:
+            type: range
+
+workflow:
+    steps: [elecsim]
+
+    elecsim: 
+        seed: '$(seed)'  # jobvars can be referenced in workflow setting
+        input: '$(input_filename)'
+        rate: 10
+        output: 'elecsim.$(seed).root'
+        userOutput: 'elecsim.user.$(seed).root'
+        additionalArgs: ''
+```
+</pre>
+</div>
+<div created="20201106085336389" modified="20201106085504844" tags="[[TDF Example]]" title="105_analysis.yaml">
+<pre>```
+## ----------------------------------------
+## demo for juno analysis
+## ----------------------------------------
+taskName: juno_custom_Alg
+experiment: juno
+softVersion: 'J20v1r0-Pre2'
+
+backend:
+    type: dirac
+    outputSubDir: 'jsub_tests'
+
+splitter:
+    mode: splitByJobvars
+    maxSubJobs: 20
+    evtMaxPerJob: 1000
+
+    jobvarLists:
+        idx:
+            type: range
+            length: 10
+
+workflow:
+    steps: [myAlg]
+
+    myAlg:
+        type: 'juno_alg'
+        # Users shall provide a job configuration file template for the algorithm and the referenced DLLs.
+        # These files would be put into input sandbox. 
+        # The folders of Sniper.LoadDll() in the config would be auto-redirected.
+        soFile: 
+            - './JsubDummyAlg/amd64_linux26/libJsubDummyAlg.so'    
+            - './JsubHelloWorld/amd64_linux26/libJsubHelloWorld.so'
+#       jobConfig: './JsubDummyAlg/share/run.py'   # local position
+        jobConfig: './JsubHelloWorld/share/run.py'   # local position
+
+        # Users may use case-sensitive text replacement to set subjob-dependent parameters.
+        textReplace:
+            # keyword: replacement
+            OUTPUT1: 'a/output.$(idx).1.root'
+            OUTPUT2: 'b/output.$(idx).2.root'
+        # what files to be uploaded as output data, for (dirac backend)
+        outputUpload:
+            - '*root'
+
+```
+</pre>
+</div>
 <div created="20200325153511015" modified="20200325153536421" title="action module">
 <pre>&lt;&lt;list-links filter:&quot;[tag[action module]]&quot;&gt;&gt;</pre>
 </div>
@@ -8916,18 +9175,20 @@ Params:
 
 </pre>
 </div>
-<div created="20200325153444465" modified="20200325160617465" title="backend workflow">
+<div created="20200325153444465" modified="20201106084447091" title="backend workflow">
 <pre>The subjobs submitted by JSUB actually run the JSUB driver on backend as the main program. The driver would first initialize the environment for the main program, and then run through each [[action module]] defined in the task definition file.
 
 Each action unit is executed with `subprocess.Popen()` pythonic methods. For the execution, the driver serves variables to the subprocess as arguments, as the environmental variables, and as stdin. These variables can source from the system variables on working nodes(`sysvar`), subjob parameters (`jobvar`), action parameters defined in TDF (`actvar`), output from previous action modules (`depvar`).
 
-The current working dir for each action unit is `${jsub_working_dir}/${job_id}/job/${subjob_id}/run/${action_unit}`; the log files are stored at `${jsub_working_dir}/${job_id}/job/${subjob_id}/log/${action_unit}` by default. 
+The current working dir for each action unit is `${jsub_task_dir}/${job_id}/runtime/subjobs/${subjob_id}/run/`; the log files are stored at `${jsub_task_dir}/${job_id}/runtime/subjobs/${subjob_id}/log/` by default. 
 
 To ensure that the action modules are executed in proper order fitting their dependencies, the JSUB driver generates a DAG for the action units.
 </pre>
 </div>
-<div created="20200707060355967" modified="20200707060411172" tags="[[scenario extension]] Extension" title="CEPC experiment">
-<pre></pre>
+<div created="20200707060355967" modified="20201106094555663" tags="[[scenario extension]] Extension" title="CEPC experiment">
+<pre>A TDF parser module for CEPC jobs. 
+
+Please check `scenario/cepc.py` in ''jsub-cepc'' package for what this module do.</pre>
 </div>
 <div created="20200315142306749" list="" modified="20200325153519616" tags="Extension [[action module]]" title="cepc_rec">
 <pre></pre>
@@ -9012,10 +9273,8 @@ Param:
 *`value`: the string
 *`length`: the length of the list (each element in this list has the same value)</pre>
 </div>
-<div created="20200701095427773" modified="20200701095626007" tags="Guide" title="Configuring JSUB">
-<pre>By default, JSUB would load configuration from the file `~/.jsubrc`. If users want to run commands with special configurations, they can append `--jsubrc PATH_TO_JSUBRC` option to jsub commands.
-
-JSUB would load general settings from `~/.jsubrc`, an example configuration file can be seen [[here|jsubrc example]], or in `TODO`. The configurations here override default settings defined in JSUB main dir.
+<div created="20200701095427773" modified="20201106082245518" tags="Guide" title="Configuring JSUB">
+<pre>By default, JSUB would load configuration from the file `~/.jsubrc`. If users want to run commands with special configurations, they can append `--jsubrc PATH_TO_JSUBRC` option to jsub commands. An example configuration file can be seen [[here|jsubrc example]], or in `/cvmfs/dcomputing.ihep.ac.cn/frontend/jsub/0.3.0/install/jsub/jsub/support/`. The configurations here override default settings defined in JSUB main dir.
 
 The most important configuration here is the designation of `taskDir` for JSUB. The folder stores the task information files as well as some runtime files for JSUB, so it may take space as large as multi-GBs in extreme occasions.
 
@@ -9034,7 +9293,7 @@ The task definition files are written in experiment-specific style, allowing use
 
 {{How to write task description files}}</pre>
 </div>
-<div created="20200315134755777" modified="20200315135213414" tags="[[backend extension]] Extension" title="dirac backend">
+<div created="20200315134755777" modified="20201106101001276" tags="[[backend extension]] Extension" title="dirac backend">
 <pre>Extension for dirac backend.
 
 ----
@@ -9047,7 +9306,10 @@ The task definition files are written in experiment-specific style, allowing use
 Params:
 
 *`site`
-*`banned_site`
+*`bannedSite`
+*`jobGroup`
+*`outputDir`
+*`outputSubDir`
 
 </pre>
 </div>
@@ -9117,7 +9379,17 @@ Action params:
 <div created="20200315142118829" modified="20200315142145152" tags="" title="Extension">
 <pre>&lt;&lt;list-links filter:&quot;[tag[Extension]]&quot;&gt;&gt;</pre>
 </div>
-<div created="20200326050619779" modified="20200326051620366" tags="Main" title="How JSUB works">
+<div created="20201106101438334" modified="20201106101629701" tags="[[jobvar extension]] Extension" title="find_lfns">
+<pre>Jobvar extension to generate LFN list with `dirac-dms-find-lfns` command.
+
+----
+params:
+
+*`path`
+*`SE`
+*`metaspec`: metadata index specification (' &quot;Size&gt;1000&quot; &quot;CreationDate&gt;2010-01-01&quot; ' for example)</pre>
+</div>
+<div created="20200326050619779" modified="20200909004500488" title="How JSUB works">
 <pre>''The life cycles of tasks''
 
 [img[./img/task_life_cycle.png]]
@@ -9130,8 +9402,8 @@ Action params:
 
 [img[./img/jsub_workflow.jpg]]</pre>
 </div>
-<div created="20200707053538179" modified="20200707081517293" tags="Guide" title="How to write task description files">
-<pre>We use a [[JUNO sim/rec example]] to showcase how users can define a JSUB task through TDF. (Check [[JUNO TDF reference]].)
+<div created="20200707053538179" modified="20201106085634223" tags="Guide" title="How to write task description files">
+<pre>We use a [[JUNO sim/rec example]] to showcase how users can define a JSUB task through TDF. (Check [[JUNO TDF Tutorial]].)
 
 The yaml codes are shown here, and the explanation is below:
 
@@ -9161,9 +9433,17 @@ For more control over the subjob-specific variables, users may also use [[splitB
 
 Workflow settings controls [[backend workflow]] on worknodes.
 
-Firstly, users need to define what action steps the workflow is composed of. For JUNO experiment, JSUB support action steps including `detsim`, `elecsim`, `calib`, `rec`, `calib-wooelec`, and `rec-woelec`.
+Firstly, users need to define what action steps the workflow is composed of. For JUNO experiment, JSUB support action steps such as `detsim`, `elecsim`, `calib`, `rec`, `calib-wooelec`, and `rec-woelec`.
 
 The custom setting of each action step can be defined below. In the above example, the first seed, particles, momentums, and additional args to be fed into JUNO production software are defined for the `detsim` action step. For other steps, no settings are defined and they all use custom settings. </pre>
+</div>
+<div created="20201106101009360" modified="20201106101248679" tags="Extension [[backend extension]]" title="IHEPcondor backend">
+<pre>Extension for IHEPCondor backend.
+
+----
+
+*`group`: `-g` arg for job submission/query
+*`outputDir`/`dataFolder`: directory to put output files to.</pre>
 </div>
 <div created="20200707073818046" modified="20200708124601197" tags="Guide" title="IHEPDIRAC web interface">
 <pre>When using DIRAC backend, JSUB would communicate with `https://dirac.ihep.ac.cn` website. JSUB tasks are registered in the ''task manager'' of the web app, so the users may monitor and operate with their tasks on the website.
@@ -9171,8 +9451,8 @@ The custom setting of each action step can be defined below. In the above exampl
 
 [img[./img/ihepdirac_task_manager.png]]</pre>
 </div>
-<div created="20200326052815755" modified="20200701095506155" tags="Guide [[Distributed Computing]]" title="Info for Distributed Computing">
-<pre>https://docbes3.ihep.ac.cn/~offlinesoftware/index.php/Distributed_Computing</pre>
+<div created="20200326052815755" modified="20201106081853299" tags="Guide [[Distributed Computing]]" title="Info for Distributed Computing">
+<pre>*[[JUNO Distributed Computing User Guide|https://juno.ihep.ac.cn/mediawiki/index.php/JUNO_Distribute_Computing_User_Guide]]</pre>
 </div>
 <div created="20200315123015796" modified="20200315123403228" tags="[[jobvar extension]] Extension" title="iter_file_list">
 <pre>A jobvar extension that generate a jobvar list of file names. 
@@ -9191,10 +9471,11 @@ Params:
 
 &lt;&lt;list-links filter:&quot;[tag[jobvar extension]]&quot;&gt;&gt;</pre>
 </div>
-<div created="20200315113644040" modified="20200429084027089" tags="" title="JSUB">
+<div created="20200315113644040" modified="20200909004122326" tags="" title="JSUB">
 <pre>JSUB is a frontend software for distributed computing, it's meant to make users' lives easier when exploiting heterogeneous resources and managing massive jobs. It's implemented in python.
 
-&lt;&lt;list-links filter:&quot;[tag[Main]]&quot;&gt;&gt;</pre>
+&lt;&lt;list-links filter:&quot;[tag[Main]]&quot;&gt;&gt;
+</pre>
 </div>
 <div created="20200315140047397" modified="20200315140104383" tags="Reference" title="JSUB commands">
 <pre>&lt;&lt;list-links filter:&quot;[tag[Command]]&quot;&gt;&gt;</pre>
@@ -9213,6 +9494,10 @@ jsub create &lt;task_def_file&gt;
 
 
 </pre>
+</div>
+<div created="20200909004504503" modified="20200909004534129" tags="Main" title="JSUB developer guide">
+<pre>*[[Reference]]
+*[[How JSUB works]]</pre>
 </div>
 <div created="20200315114112709" modified="20200707055116123" tags="[[Software Component]] Reference" title="JSUB Extensions">
 <pre>JSUB is designed to be highly extensible. It allows users to load extensions from python [[packages|JSUB packages]] during run time.
@@ -9237,7 +9522,7 @@ A list of available extensions:
 
 </pre>
 </div>
-<div created="20200701065655704" modified="20200707073701229" tags="Command" title="jsub getlog">
+<div created="20200701065655704" modified="20201106093843632" tags="Command" title="jsub getlog">
 <pre>Retrieve the log file of selected subjobs and dump into the given folder.
 
 ----
@@ -9251,7 +9536,7 @@ jsub getlog &lt;task-id&gt; -s &lt;sub_ids&gt; [-p PATH]
 Options:
 
 *`--sub_id`(`-s`): The sub IDs of the jobs to fetch log files, the numbers should be separated with commas.
-*`--path`(`-p`): The path to which to dump log files, `./` by default.
+*`--path`(`-p`): The path to which to dump log files. By default, the log files would be dumped to the `logfiles` subdir in the corresponding task-ID dir. 
 </pre>
 </div>
 <div created="20200315142933149" modified="20200701055905534" tags="Command" title="jsub ls">
@@ -9530,6 +9815,49 @@ Options:
 *`--dry-run`: Create necessary files without final submission, used for testing.
 *`--resubmit`(`-r`): Enforce resubmission if the task has already been submitted, deleting orginal jobs on backend.</pre>
 </div>
+<div created="20200315114203690" modified="20201106094020911" tags="Guide Main" title="JSUB user guide">
+<pre>!!Installation
+
+On IHEP cluster, the software is installed in `/cvmfs/dcomputing.ihep.ac.cn/frontend/jsub`. To use the software, you simply need to activate a python virtual environment with the following command:
+
+```
+source /cvmfs/dcomputing.ihep.ac.cn/frontend/jsub/activate.sh [-v VERSION]
+```
+
+And if you want to stop using JSUB and restore python environment, just run the command:
+
+```
+deactivate
+```
+
+
+Alternatively, you may choose to [[Manually install jsub from github]]
+
+
+----
+
+!!Preparation for Distributed Computing
+
+To work with the Grid in general, users need to join some Virtual Organization and obtain a Grid Certificate.
+
+Check [[Info for Distributed Computing]].
+
+----
+!!Configuring JSUB
+
+{{Configuring JSUB}}
+
+----
+!!Manage Tasks with JSUB
+
+
+*[[Defining a JSUB Task]]
+*[[Managing tasks with JSUB commands]]
+*[[Checking JSUB log]]
+*[[IHEPDIRAC web interface]]
+
+</pre>
+</div>
 <div created="20200315144151453" modified="20200701064230672" tags="Command" title="jsub version">
 <pre>Showing the version of the jsub software.
 
@@ -9556,123 +9884,42 @@ JSUB version: v0r1
 <div created="20200315143717409" modified="20200315143744832" tags="Package" title="jsub_juno">
 <pre></pre>
 </div>
-<div created="20200315114441120" modified="20200710031953938" tags="Example" title="jsubrc example">
+<div created="20200315114441120" modified="20201106082336686" tags="Example" title="jsubrc example">
 <pre>```
 # JSUB Configuration File
 # This configuration file is supposed to be put at ~/.jsubrc.
 # The settings here would overload the default ones defined in .jsubrc in JSUB main dir.
 #==================================================================================
 
-###    The packages to be loaded to JSUB. JSUB would search for extension modules according to the order given here.
-package: [jsub_juno, jsub_cepc, jsub_dirac, jsub.exts]
+### The packages to be loaded to JSUB. JSUB would search for extension modules according to the order given here.
+package: [jsub_juno, jsub_dirac]
 
-### Location to put task information files; may need large space for log and output files
+### Location to put task information files; may need big space for log and output files
 taskDir: 
-  location: ~/jsub/
+  location: /junofs/users/USER_NAME/jsub
 
 ### Backend setting
 backend:
   default: dirac
-
-  local:    # Running subjobs locally as subprocesses in background
-    type: local
-    launcher: arg 
-  dirac:    
-    type: dirac
-    launcher: dirac    # relevant JSUB driver executable
-
+#  dirac:    
     # Config backend settings here
-#    param:
-#      site:
-#        - CLOUD.IHEP.cn
-#        - GRID.JINR.ru
-#        - CLUSTER.USTC.cn
+#   site:
+#     - CLOUD.IHEP.cn
+#     - GRID.JINR.ru
+#     - CLUSTER.USTC.cn
+
 
 ```</pre>
 </div>
-<div created="20200701101341631" modified="20200701101504644" tags="[[TDF Example]]" title="JUNO example with jobvar splitter">
-<pre>```
-taskName: juno_simrec_jobvar_splitter_test
-backend: dirac
+<div created="20200315142229491" modified="20201106094349056" tags="[[scenario extension]] Extension" title="JUNO experiment">
+<pre>A TDF parser module for JUNO jobs. 
 
-experiment: juno
-softVersion: 'J19v1r0-Pre3' 
-
-splitter:
-    mode: splitByJobvars
-    maxSubjobs: 50
-    evtMaxPerJob: 100 
-    # jobvars are combined according to groups
-    jobvar_lists:
-        seed:
-            type: range
-            first: 1
-        px: 
-            type: range
-            first: 100 
-            group: a
-            last: 104 
-        py: 
-            type: range
-            group: a
-            first: 200 
-            last: 206 
-        pz: 
-            type: range
-            group: c
-            first: 1
-            last: 2
-        momentum:
-            type: range
-            group: b
-            first: 3
-            last: 5
-    
-outputSubDir: 'juno_prod'
-
-step:   
-    steps: [detsim]
-```
-</pre>
+Please check `scenario/juno.py` in ''jsub-juno'' package for what this module do.</pre>
 </div>
-<div created="20200315142229491" modified="20200707055157139" tags="[[scenario extension]] Extension" title="JUNO experiment">
-<pre></pre>
+<div created="20201106084933784" modified="20201106084943834" title="JUNO sim/rec example">
+<pre>{{102_simrec.yaml}}</pre>
 </div>
-<div created="20200701101103125" modified="20200701101317374" tags="[[TDF Example]]" title="JUNO sim/rec example">
-<pre>```
-taskName: juno_simrec
-backend: 
-    type: dirac
-    # The final directory for output file would be: /&lt;cefs-user-home&gt;/&lt;outputSubDir&gt;/&lt;taskName&gt;
-    # The sub-directory relative to the root directory is defined here
-    outputSubDir: 'juno_prod/'
-#   site:
-#       - CLOUD.ihep.cn
-
-experiment: juno
-softVersion: 'J19v1r0-Pre3'
-
-splitter:
-    mode: splitByEvent
-    # evtmax can be set here or in general setting
-    evtMaxPerJob: 10  
-    njobs: 5
-#   totalEvents: 2000      
-    # if njobs is not specified, would use this attribute to determine number of subjobs instead
-
-
-workflow:
-    steps: [detsim, elecsim, calib, rec]
-
-    detsim: 
-        seed: 5
-        particles: e+
-        momentums: 1.398    #MeV
-        additionalArgs: '--nogdml --light-yield 10129 photon --totalphotons 10129'
-```
-</pre>
-</div>
-<div created="20200707074830364" modified="20200707082821167" tags="Guide Reference" title="JUNO TDF reference">
+<div created="20200707074830364" modified="20201106093409642" tags="Guide Reference" title="JUNO TDF Tutorial">
 <pre>''A minimalistic example'':
 
 ```
@@ -9696,26 +9943,29 @@ workflow:
 
 ----
 
-''General Setting'':
+!!''General Setting'':
 
 *`taskName`
 *`backend`
-*`experiment`: juno
+*`experiment`: `juno`
 *`softVersion`: version of JUNO offline software
 
-''Splitter''
+!!''Splitter Setting''
 
 *[[splitByEvent splitter]] for simple jobs.
 *[[splitByJobvar splitter]] for more complex jobs.
 
-''Workflow'':
+!!''Workflow Settting'':
 
-Supported action step: `detsim`, `elecsim`, `calib`, `rec`, `calib-woelec`, `rec-woelec`；
+Default action steps: `detsim`, `elecsim`, `calib`, `rec`, `calib-woelec`, `rec-woelec`. For these steps, users can omit type definition in step setting. Alternatively, users can assign arbitrary step name and define their types in step setting.
+
+''simulation/reconstruction steps''
 
 *`detsim`:
 **`output`: `--output` arg in juno test script; autofill by default.
 **`user_output`:`--user_output` arg in juno test script; autofill by default
-**`additional_args`: additional command line args to run 
+**`additional_args`: additional command line args to run (may conflict with gun params)
+**`full_args`: full args including output, seed, etc.
 **`seed`: random seed.
 **`evtmax`: can override splitter setting.
 **`positions`: `--positions` gun param
@@ -9730,31 +9980,93 @@ Supported action step: `detsim`, `elecsim`, `calib`, `rec`, `calib-woelec`, `rec
 **`evtmax`
 **`rate`
 **`seed`
-**`additional_args`
+**`additional_args`/`full_args`
 *`calib`:
 **`input`
 **`output`
 **`user_output`
 **`evtmax`
-**`additional_args`
+**`additional_args`/`full_args`
 *`rec`:
 **`input`
 **`output`
 **`user_output`
 **`evtmax`
 **`gdml-file`
-**`additional_args`
+**`additional_args`/`full_args`
 *`calib-woelec`:
 **`input`
 **`output`
 **`evtmax`
-**`additional_args`
+**`additional_args`/`full_args`
 *`rec-woelec`:
 **`input`
 **`output`
 **`evtmax`
 **`gdml-file`
-**`additional_args`</pre>
+**`additional_args`/`full_args`
+
+''analysis''
+
+To run an analysis job, users shall provide the DLL of the algorithm (`*.so`) and a job configuration file (`/share/run.py`) template. The job configuration file template can be obtained through minimal modification on an actual locally-runnable configuration file. The only modification user needs to do is to tag the subjob-dependent variables whose values need to be substituted.
+
+* `type`: `juno_alg`
+*`soFile`: local location of so file(s). Can be a list.
+*`jobConfig`: local location of job configuration file template.
+*`textReplace`: dict of `keyword:value` for text substitution in job configuration template.
+*`outputUpload`: what files should be uploaded as output data? Wildcards supported; can be a list.
+
+''run JUNO executables'':
+
+Running executables placed under `$JUNOTOP`.
+
+*`type`: `juno_software`
+*`software`: relative path to `$JUNOTOP/`
+*`args`: string of full arguments.
+
+''execute general cmd lines''
+
+Note that the action step runs in an independent process. So its modification to environmental variables won't be effective in following steps.
+
+*`type`:`cmd`
+*`cmd`: the command line</pre>
+</div>
+<div created="20201106094852520" modified="20201106095332404" tags="[[action module]] Extension" title="juno_alg">
+<pre>Action module for running JUNO algorithms.
+
+----
+params:
+
+*`soFile`: local location of DLL so file
+*`jobConfig`: job configuration file template. (The `Sniper.loadDll()` in template would be auto-redirected to `./`)
+*`textReplace`: `keyword: substitution` dict for text replacement for job configuration file template
+*`outputUpload`: list of files to upload, can use wildcards</pre>
+</div>
+<div created="20201106095505664" modified="20201106100808963" tags="Extension [[action module]]" title="juno_prod">
+<pre>Action module for JUNO simulation/reconstruction steps: `detsim/elecsim/calib/rec/calib-woelec/rec-woelec`
+
+----
+
+params:
+
+*`seed`: 
+*`evtmax`: 
+*`output`: 
+*`user_output`:
+*`input`: 
+*`rate`: for elecsim
+*`additional_args`: string to put at the end of argument string, in addition to all other defined-attributes (if gun params are defined, no need to put `gun` in here)
+*`full_args`: overwriting all other attributes.
+*`momentums`,`particles`,`volume`,`material`,`positions`: gun params</pre>
+</div>
+<div created="20201106095228660" modified="20201106095455130" tags="Extension [[action module]]" title="juno_soft">
+<pre>Action module for running executables under `$JUNOTOP`.
+
+----
+params:
+
+*`software`: binary path relative to `$JUNOTOP/`
+*`args`: full arguments</pre>
 </div>
 <div created="20200315121358299" modified="20200707071037298" tags="[[jobvar extension]] Extension" title="lines_in_file">
 <pre>A jobvar extension that generate a jobvar list with the contents of each line in a file.
@@ -9765,8 +10077,8 @@ Params:
 
 *`file`: target file</pre>
 </div>
-<div created="20200315123745682" modified="20200315124005880" tags="Extension [[backend extension]]" title="local backend">
-<pre>Submit the jobs as python subprocess on local.
+<div created="20200315123745682" modified="20201106100926307" tags="Extension [[backend extension]]" title="local backend">
+<pre>Submit the jobs as python subprocess on login node.
 
 ----
 
@@ -9817,10 +10129,10 @@ contents
 ```
 </pre>
 </div>
-<div created="20200707044152344" modified="20200707073712397" tags="Guide" title="Managing tasks with JSUB commands">
+<div created="20200707044152344" modified="20201106093527106" tags="Guide" title="Managing tasks with JSUB commands">
 <pre>With tasks defined, a user can run JSUB commands to create, submit, and monitor the running status of his tasks. [[Here|JSUB commands]] is a list of reference for the available commands.
 
-Firstly, user can create a task with a [[prepared task description file|Defining a JSUB Task]] by running a [[jsub create]] command.
+Firstly, user can create a task after [[preparing a task description file|Defining a JSUB Task]] with [[jsub create]] command.
 
 ```
 jsub create my_task.yaml
@@ -9839,7 +10151,7 @@ jsub status &lt;task-id&gt;
 jsub status &lt;task-id&gt; -s Waiting,Done
 ```
 
-To look up what JSUB tasks has been registered, user can run [[jsub ls]] command. By default, the command would query backend status of the task, the action can be canceled with `-n` argument.
+To look up what JSUB tasks has been registered, user can run [[jsub ls]] command. By default, the command would spend some time querying backend status of the task, the action can be canceled with `-n` argument.
 
 ```
 jsub ls
@@ -9850,8 +10162,9 @@ Users can also [[resubmit|jsub resubmit]]/[[reschedule|jsub reschedule]] the tas
 
 ```
 jsub resubmit &lt;task-id&gt;
-jsub reschedule &lt;task-id&gt; [-bfdrw] [-s sub_ids] [-b backend_ids]
-jsub getlog &lt;task-id&gt; -s &lt;sub_ids&gt; [-p PATH]
+jsub reschedule &lt;task-id&gt; [-fdrw] [-s sub_ids] [-b backend_ids]
+jsub getlog &lt;task-id&gt; -i &lt;sub_ids&gt; [-p PATH]
+jsub getlog &lt;task-id&gt; -s &lt;Statuses&gt; [-p PATH]
 ```
 
 User can delete a jsub task and remove relevant task files with [[jsub remove]] command.
@@ -9889,10 +10202,10 @@ Params:
 *`step`: the step to increase, default at 1.
 *`length`: The largest length of the list, default at 100000.</pre>
 </div>
-<div created="20200315114050363" modified="20200315114109230" tags="Main" title="Reference">
+<div created="20200315114050363" modified="20200909004544737" title="Reference">
 <pre>&lt;&lt;list-links filter:&quot;[tag[Reference]]&quot;&gt;&gt;</pre>
 </div>
-<div created="20200707055444504" modified="20200707060752499" tags="Splitter" title="splitByEvent splitter">
+<div created="20200707055444504" modified="20201106083321254" tags="Splitter" title="splitByEvent splitter">
 <pre>A simple splitter to generate multiple jobs.
 
 ----
@@ -9917,13 +10230,16 @@ splitter:
 *`jobvarsToSeq`: a dict of varname-value pairs, for variables that has incremental values in subjobs. (for filenames, seeds, ...)
 *`jobvars`: a dict of varname-value pairs, for variables with set values. (universal settings in workflow, etc.)
 
+
 ''Output''
 
 A list of subjob-variable dict, the length of which is used to define the number of jobs for the JSUB task.
 </pre>
 </div>
-<div created="20200707060556537" modified="20200707071549123" tags="Splitter" title="splitByJobvar splitter">
-<pre>The splitter uses [[jobvar extension]]s to generate parameter lists, combine these parameters into sets. 
+<div created="20200707060556537" modified="20201106084029273" tags="Splitter" title="splitByJobvar splitter">
+<pre>A splitByJobvar splitter uses several jobvar lists to describe the parameters of subjobs. A jobvar list is a list of subjob-specific parameter generated by [[jobvar extension]].
+
+This splitter allow users to group jobvar lists and combine them accordingly to generate iterative job parameters. 
 
 ----
 
@@ -9959,13 +10275,17 @@ workflow:
 
 ----
 
-A splitByJobvar splitter uses several jobvar lists to describe the parameters of subjobs. A jobvar list is a list of subjob-specific parameter generated by [[jobvar extension]].
+''Rules about Jobvar combination:''
 
-This splitter allow users to group jobvar lists and combine them accordingly to generate iterative job parameters. Jobvar lists can be put into groups. For jobvar lists in the same group, the combined list would have the shortest common length, and the params of the ith job would use the ith elements of all jobvars. For jobvars over different groups the overall job param list would be the cartesian product of the sublist in each group. If a jobvar is not put into a group, it would combine with the grouped result of other jobvars.
+* For jobvar lists in the same group, the combined list would have the shortest common length, and the params of the i-th job would use the i-th elements of all jobvars. 
+* For jobvars over different groups, the overall job param list would be the Cartesian product of the sublist in each group. 
+* If jobvars without `group` attributes, they would do a same-group combination with the grouping result of all other jobvars.
 
 As shown in the example above, the user wants to run JUNO simulation for 4 types of particles and 3 particle-gun positions. For each setting, the user would like to run 10 jobs (with different random seed). So he put the three jobvar lists into three respective groups, and got 120 jobs in total. 
 
-The value of jobvars can be quoted in the workflow setting with `'$(var_name)'`.</pre>
+''Referencing jobvar values''
+
+For most attributes in workflow setting, the value of jobvars can be quoted in with `'$(var_name)'`. </pre>
 </div>
 <div created="20200316025432361" modified="20200707061158126" tags="[[Software Component]]" title="splitter">
 <pre>The splitter handles the splitting of a task into multiple subjobs, so that these subjobs can be distributed to different worknodes for running.
@@ -9987,48 +10307,6 @@ When creating a task, splitter would generate a variable-set list for the task. 
 </div>
 <div created="20200707024050224" modified="20200707024057426" title="TDF Example">
 <pre>{{Task description examples}}</pre>
-</div>
-<div created="20200315114203690" modified="20200715074228557" tags="Guide Main" title="Using JSUB">
-<pre>!!Installation
-
-On IHEP cluster, the software is installed in `/cvmfs/dcomputing.ihep.ac.cn/frontend/jsub`. To use the software, you simply need to activate a python virtual environment with the following command:
-
-```
-source /cvmfs/dcomputing.ihep.ac.cn/frontend/jsub/activate.sh
-```
-
-And if you want to stop using JSUB and restore python environment, just run the command:
-
-```
-deactivate
-```
-
-
-Alternatively, you may choose to [[Manually install jsub from github]]
-
-
-----
-
-!!Preparation for Distributed Computing
-
-To work with the Grid in general, users need to join some Virtual Organization and obtain a Grid Certificate.
-
-Check [[Info for Distributed Computing]].
-
-----
-!!Configuring JSUB
-
-{{Configuring JSUB}}
-
-----
-!!Manage Tasks with JSUB
-
-*[[Defining a JSUB Task]]
-*[[Managing tasks with JSUB commands]]
-*[[Checking JSUB log]]
-*[[IHEPDIRAC web interface]]
-
-</pre>
 </div>
 <div created="20200429084136373" modified="20200715075516015" title="Virtualenv for JSUB">
 <pre>To avoid conflict, it's advisable to install JSUB in a python virtual environment. On lxslc servers of IHEP, you can do this with the following commands.
