@@ -1,0 +1,46 @@
+## ---------------------------------------
+## A simple example showing the basics about running a JUNO simulation task
+## ---------------------------------------
+taskName: juno_sim
+experiment: juno
+## Define JUNO software version through a part of its path
+softVersion: 'centos7_amd64_gcc830/Pre-Release/J20v1r0-Pre2'
+## Alternatively, define soft version through architecture and release.
+#softVersion: 
+#   arch: 'centos7_amd64_gcc830/'
+#   release: 'J20v1r0-Pre2' 
+
+backend: 
+    type: dirac
+    ## When outputSubDir is defined, the final directory for output file would be: /<junofs-user-home>/<outputSubDir>/<taskName>
+    outputSubDir: 'jsub_tests'
+    ## Alternatively, user may specify the full path of output LFN folder with outputDir
+#    outputDir:'/junofs/.../jsub_tests/juno_sim'
+    
+#    site:
+#       - CLOUD.JINRONE.ru
+#       - CLOUD.IHEP.cn
+#    bannedSites:
+#       - CLOUD.JINRONE.ru
+
+splitter:
+    ## A splitByEvent splitter generate subjobs with uniform settings.
+    ## In splitByEvent mode, filenames of input/output/userOutput are automatic, and the seeds are incremental by 1 by default. 
+    ## Other settings shall stay the same for all subjobs.
+    mode: splitByEvent 
+    evtMaxPerJob: 1000 
+    njobs: 50
+
+workflow:
+    steps: [detsim] 
+
+    detsim:  
+        ## in splitByEvent mode, the seed here means the starting seed for the first subjob. Incremental for other subjobs.
+        seed: 1 
+        ## in splitByEvent mode, output filenames are automatically handled
+
+        ## when gun params are not defined:  full_args= '--seed XXX --output XXX --user-output XXX $(additionalArgs)'
+        additionalArgs: 'gun --particles e+ --momentums 1.398'
+
+        
+
